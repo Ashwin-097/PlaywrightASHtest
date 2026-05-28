@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout Test Scripts') {
             steps {
                 dir('tests') {
-                    git branch: 'test', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
+                    git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
                 }
             }
         }
@@ -28,8 +28,8 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                dir('tests') {
-                    sh './run-tests.sh ../app'
+                 // Run Maven tests, which will trigger your TestRunner.java
+                sh 'mvn clean test'
                 }
             }
         }
