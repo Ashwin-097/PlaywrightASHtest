@@ -37,10 +37,8 @@ pipeline {
 
         stage('Deploy if Tests Pass') {
             steps {
-                dir('app') {
                     bat 'echo "Deploying Hello World app..."'
                     // Replace with actual deploy command
-                }
             }
         }
     }
