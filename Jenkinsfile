@@ -15,7 +15,19 @@ pipeline {
                 bat 'mvn clean test'
             }
         }
-        
+                stage('Count Scenarios') {
+            steps {
+                // Parse Cucumber JSON report and echo counts
+                bat '''
+                powershell -Command ^
+                  "$report = Get-Content target/cucumber-report.json | ConvertFrom-Json; ^
+                   $scenarios = ($report | ForEach-Object { $_.elements }).Count; ^
+                   $steps = ($report | ForEach-Object { $_.elements | ForEach-Object { $_.steps } }).Count; ^
+                   Write-Host ('Total scenarios executed: ' + $scenarios); ^
+                   Write-Host ('Total steps executed: ' + $steps)"
+                '''
+            }
+        }
 
         stage('Checkout App Repo') {
             steps {
