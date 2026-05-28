@@ -1,9 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'mcr.microsoft.com/playwright:v1.17.2-focal'
-        }
-    }
+    agent any
+    
     stages {
         stage('Checkout Tests Repo') {
             steps {
