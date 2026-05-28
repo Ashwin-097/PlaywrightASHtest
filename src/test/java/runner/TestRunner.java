@@ -13,6 +13,7 @@ import io.cucumber.junit.CucumberOptions;
     			        "html:target/cucumber-report.html",
     			        "junit:target/cucumber-report.xml"     // generates XML for Jenkins
     		 },
+    tags = "@test",
     monochrome = true
 )
 public class TestRunner {
