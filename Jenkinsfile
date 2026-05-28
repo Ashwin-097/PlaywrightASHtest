@@ -51,7 +51,7 @@ pipeline {
             steps {
                 dir('tests') {
                     // Run Maven tests, which will trigger your TestRunner.java
-                    bat 'mvn clean test'
+                     bat '"%WORKSPACE%\\tools\\apache-maven-3.9.6\\bin\\mvn.cmd" clean test'
                 }
             }
         }
