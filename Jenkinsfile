@@ -1,7 +1,4 @@
 pipeline {
-    agent {
-     
-    }
 
     stages {
         stage('Checkout Tests Repo') {
