@@ -51,24 +51,25 @@ if not exist jdk-21 (
             }
         }
         
-        stage('Build') 
-        {
-            steps
-            {
-                 git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
-                 rem === Run build with Maven ===
+stage('Build') {
+    steps {
+        // Checkout code
+        git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
+
+        // Run Maven inside a batch block
+        bat '''
+
+        rem === Run build ===
         "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -Dmaven.test.failure.ignore=true clean package
-            }
-            post 
-            {
-                success
-                {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
-                }
-            }
+        '''
+    }
+    post {
+        success {
+            junit '**/target/surefire-reports/TEST-*.xml'
+            archiveArtifacts 'target/*.jar'
         }
-        
+    }
+}
         
         
         stage("Deploy to QA"){
