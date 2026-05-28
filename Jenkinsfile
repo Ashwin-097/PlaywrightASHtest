@@ -23,7 +23,7 @@ pipeline {
             echo "Total scenarios executed: ${scenarios}"
         }
     }
-
+}
         stage('Checkout App Repo') {
             steps {
                 script {
