@@ -18,7 +18,11 @@ pipeline {
 stage('Show Counts') {
     steps {
         bat '''
-        powershell -Command "$xml = [xml](Get-Content 'target/cucumber-report.xml'); $tests = $xml.testsuite.testcase.Count; $failures = ($xml.testsuite.testcase | Where-Object { $_.failure }).Count; Write-Host ('Total scenarios executed: ' + $tests); Write-Host ('Total failures: ' + $failures)"
+        powershell -Command "$xml = [xml](Get-Content 'target/cucumber-report.xml'); 
+            $tests = $xml.testsuite.tests; 
+            $failures = $xml.testsuite.failures; 
+            Write-Host ('Total scenarios executed: ' + $tests); 
+            Write-Host ('Total failures: ' + $failures)"
         '''
     }
 }
