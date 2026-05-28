@@ -24,7 +24,7 @@ pipeline
                 )
 
                 if not exist jdk-21 (
-                powershell -command "Invoke-WebRequest -Uri https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.11_10.zip -OutFile jdk.zip"
+                powershell -command "Invoke-WebRequest -Uri https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11+10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.11_10.zip"
                 powershell -command "Expand-Archive jdk.zip -DestinationPath jdk-21"
                  )
  
