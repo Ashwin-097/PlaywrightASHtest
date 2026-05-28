@@ -15,6 +15,14 @@ pipeline {
                 bat 'mvn clean test'
             }
         }
+        stage('Report') {
+    steps {
+        script {
+            def report = readJSON file: 'target/cucumber-report.json'
+            def scenarios = report.collectMany { it.elements }.size()
+            echo "Total scenarios executed: ${scenarios}"
+        }
+    }
 
         stage('Checkout App Repo') {
             steps {
