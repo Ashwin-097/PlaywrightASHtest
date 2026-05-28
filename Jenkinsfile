@@ -23,17 +23,13 @@ pipeline
                   )
                 )
 
-                rem === Download JDK 21 if not already present ===
                 if not exist jdk-21 (
-                  curl -L -o jdk.zip https://download.java.net/java/GA/jdk21/35/GPL/openjdk-21_windows-x64_bin.zip
-                  powershell -command "Expand-Archive jdk.zip ."
-                  rem Flatten folder name
-                  for /d %%i in (jdk-21*) do (
-                    if not "%%i"=="jdk-21" (
-                      move "%%i" jdk-21
-                    )
-                  )
-                )
+                powershell -command "Invoke-WebRequest -Uri https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.11_10.zip -OutFile jdk.zip"
+                powershell -command "Expand-Archive jdk.zip -DestinationPath jdk-21"
+                 )
+ 
+                set JAVA_HOME=%WORKSPACE%\\tools\\jdk-21
+                set PATH=%JAVA_HOME%\\bin;%WORKSPACE%\\tools\\apache-maven-3.9.6\\bin;%PATH%
 
                 rem === Set environment variables for this build ===
                 set JAVA_HOME=%WORKSPACE%\\tools\\jdk-21
