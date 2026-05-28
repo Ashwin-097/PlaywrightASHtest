@@ -23,17 +23,18 @@ pipeline
                   )
                 )
 
-                rem === Download JDK 21 if not already present ===
-                if not exist jdk-21 (
-                curl -L -o jdk.zip https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11+10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.11_10.zip
-                powershell -command "Expand-Archive jdk.zip ."
-                rem Flatten folder name
-                for /d %%i in (jdk-21*) do (
-                if not "%%i"=="jdk-21" (
-                move "%%i" jdk-21
-                     )
-                 )
-               )
+rem === Download JDK 21 if not already present ===
+if not exist jdk-21 (
+  curl -L -o jdk.zip https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11+10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.11_10.zip
+  powershell -command "Expand-Archive jdk.zip ."
+  rem Flatten folder name
+  for /d %%i in (jdk-21*) do (
+    if not "%%i"=="jdk-21" (
+      move "%%i" jdk-21
+    )
+  )
+)
+
  
             
 
