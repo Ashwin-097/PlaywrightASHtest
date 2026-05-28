@@ -42,7 +42,7 @@ pipeline {
         stage('Build App') {
             steps {
                 dir('app') {
-                    bat 'mvn clean package'
+                      bat '"%WORKSPACE%\\tools\\apache-maven-3.9.6\\bin\\mvn.cmd" clean package'
                 }
             }
         }
