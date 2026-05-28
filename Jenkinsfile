@@ -32,15 +32,13 @@ pipeline {
                   )
                 )
 
-                rem === Set environment variables for this build ===
-                set JAVA_HOME=%WORKSPACE%\\tools\\jdk-21
-                set PATH=%JAVA_HOME%\bin;%WORKSPACE%\tools\apache-maven-3.9.16\bin;%PATH%
+        rem === Set JAVA_HOME and PATH ===
+        set JAVA_HOME=%WORKSPACE%\\tools\\jdk-21
+        set PATH=%JAVA_HOME%\\bin;%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin;%PATH%
 
-                echo ===== JAVA VERSION =====
-                "%WORKSPACE%\\tools\\jdk-21\\bin\\java.exe" -version
-
-                echo ===== MAVEN VERSION =====
-                "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -v
+        echo JAVA_HOME is %JAVA_HOME%
+        "%JAVA_HOME%\\bin\\java.exe" -version
+        "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -v
                 '''
             }
         }
