@@ -56,12 +56,6 @@ stage('Build') {
         // Checkout code
         git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
 
-        // Run Maven inside a batch block
-        bat '''
-
-        rem === Run build ===
-        "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -Dmaven.test.failure.ignore=true clean package
-        '''
     }
 }
         
@@ -76,7 +70,13 @@ stage('Build') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
-                    bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regressions.xml"
+               
+        // Run Maven inside a batch block
+        bat '''
+
+        rem === Run build ===
+        "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -Dmaven.test.failure.ignore=true clean package
+        '''
                     
                 }
             }
