@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
-                        git branch: 'main',
+                        git branch: 'master',
                             url: 'https://github.com/octocat/Hello-World'
                     } else {
                         echo "Skipping app checkout because tests failed."
