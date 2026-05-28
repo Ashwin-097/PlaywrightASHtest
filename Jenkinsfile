@@ -12,13 +12,13 @@ pipeline
                 cd tools
 
                 rem === Download Maven if not already present ===
-                if not exist apache-maven-3.9.6 (
-                  curl -L -o maven.zip https://downloads.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip
+                if not exist apache-maven-3.9.16 (
+                  curl -L -o maven.zip https://downloads.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.zip
                   powershell -command "Expand-Archive maven.zip ."
                   rem Flatten folder name
-                  for /d %%i in (apache-maven-3.9.6*) do (
-                    if not "%%i"=="apache-maven-3.9.6" (
-                      move "%%i" apache-maven-3.9.6
+                  for /d %%i in (apache-maven-3.9.16*) do (
+                    if not "%%i"=="apache-maven-3.9.16" (
+                      move "%%i" apache-maven-3.9.16
                     )
                   )
                 )
