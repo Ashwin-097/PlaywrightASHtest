@@ -56,7 +56,8 @@ if not exist jdk-21 (
             steps
             {
                  git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
-                 "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -Dmaven.test.failure.ignore=true clean package
+                 rem === Run build with Maven ===
+        "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -Dmaven.test.failure.ignore=true clean package
             }
             post 
             {
