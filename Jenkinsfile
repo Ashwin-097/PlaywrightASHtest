@@ -15,7 +15,7 @@ pipeline {
                 bat 'mvn clean test'
             }
         }
-                stage('Count Scenarios') {
+        stage('Count Scenarios') {
             steps {
                 // Parse Cucumber JSON report and echo counts
                 bat '''
