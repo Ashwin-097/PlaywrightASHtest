@@ -15,19 +15,17 @@ pipeline {
                 bat 'mvn clean test'
             }
         }
-        stage('Show Counts') {
-            steps {
-                // Parse JUnit XML report and echo counts in console
-                bat '''
-                powershell -Command ^
-                  "$xml = [xml](Get-Content target/cucumber-report.xml); ^
-                   $tests = $xml.testsuite.testcase.Count; ^
-                   $failures = $xml.testsuite.failure.Count; ^
-                   Write-Host ('Total scenarios executed: ' + $tests); ^
-                   Write-Host ('Total failures: ' + $failures)"
-                '''
-            }
-        }
+stage('Show Counts') {
+    steps {
+        bat '''
+        powershell -Command "$xml = [xml](Get-Content target/cucumber-report.xml); 
+            $tests = $xml.testsuite.testcase.Count; 
+            $failures = ($xml.testsuite.testcase | Where-Object { $_.failure }).Count; 
+            Write-Host ('Total scenarios executed: ' + $tests); 
+            Write-Host ('Total failures: ' + $failures)"
+        '''
+    }
+}
 
         stage('Checkout App Repo') {
             steps {
