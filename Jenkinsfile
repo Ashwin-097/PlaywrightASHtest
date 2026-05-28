@@ -2,27 +2,43 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Checkout App Code') {
             steps {
-                git branch: 'dummy', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
+                dir('app') {
+                    git branch: 'master', url: 'https://github.com/octocat/Hello-World.git'
+                }
             }
         }
 
-        stage('Build') {
+        stage('Checkout Test Scripts') {
             steps {
-                sh 'echo "Building project..."'
+                dir('tests') {
+                    git branch: 'test', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
+                }
             }
         }
 
-        stage('Test') {
+        stage('Build App') {
             steps {
-                sh 'echo "Running tests..."'
+                dir('app') {
+                    sh 'echo "Building Hello World app..."'
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Run Tests') {
             steps {
-                sh 'echo "Deploying project..."'
+                dir('tests') {
+                    sh './run-tests.sh ../app'
+                }
+            }
+        }
+
+        stage('Deploy if Tests Pass') {
+            steps {
+                dir('app') {
+                    sh 'echo "Deploying Hello World app..."'
+                }
             }
         }
     }
