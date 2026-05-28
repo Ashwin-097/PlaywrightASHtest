@@ -43,10 +43,10 @@ if not exist jdk-21 (
                 set PATH=%JAVA_HOME%\\bin;%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin;%PATH%
 
                 echo ===== JAVA VERSION =====
-                "%JAVA_HOME%\bin\java.exe" -version
+                "%JAVA_HOME%\\bin\\java.exe" -version
 
                 echo ===== MAVEN VERSION =====
-                "%WORKSPACE%\tools\apache-maven-3.9.16\bin\mvn.cmd" -v
+                "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -v
                 '''
             }
         }
