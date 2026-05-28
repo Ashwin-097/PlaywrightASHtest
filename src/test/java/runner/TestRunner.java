@@ -6,9 +6,13 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-    features = "features",
+	features = "src/test/resources/features",
     glue = "steps",
-    plugin = {"pretty", "html:target/cucumber-report.html"},
+    		 plugin = {
+    			        "pretty",
+    			        "html:target/cucumber-report.html",
+    			        "junit:target/cucumber-report.xml"     // generates XML for Jenkins
+    		 },
     monochrome = true
 )
 public class TestRunner {
