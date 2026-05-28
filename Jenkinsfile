@@ -5,7 +5,7 @@ pipeline
     stages 
     {
 		
-		   stage('Setup JDK 21 & Maven') {
+		          stage('Setup JDK 21 & Maven') {
             steps {
                 bat '''
                 if not exist tools mkdir tools
@@ -17,7 +17,9 @@ pipeline
                   powershell -command "Expand-Archive maven.zip ."
                   rem Flatten folder name
                   for /d %%i in (apache-maven-3.9.6*) do (
-                    if not "%%i"=="apache-maven-3.9.6" ren "%%i" apache-maven-3.9.6
+                    if not "%%i"=="apache-maven-3.9.6" (
+                      move "%%i" apache-maven-3.9.6
+                    )
                   )
                 )
 
@@ -27,7 +29,9 @@ pipeline
                   powershell -command "Expand-Archive jdk.zip ."
                   rem Flatten folder name
                   for /d %%i in (jdk-21*) do (
-                    if not "%%i"=="jdk-21" ren "%%i" jdk-21
+                    if not "%%i"=="jdk-21" (
+                      move "%%i" jdk-21
+                    )
                   )
                 )
 
