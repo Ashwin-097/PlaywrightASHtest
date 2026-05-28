@@ -12,7 +12,8 @@ import io.cucumber.junit.CucumberOptions;
     		 plugin = {
     			        "pretty",
     			        "html:target/cucumber-report.html",
-    			        "junit:target/cucumber-report.xml"     // generates XML for Jenkins
+    			        "junit:target/cucumber-report.xml",     // generates XML for Jenkins
+    			        "json:target/cucumber-report.json"
     		 },
     tags = "@test",
     monochrome = true
