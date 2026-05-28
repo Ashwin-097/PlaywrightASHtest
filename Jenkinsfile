@@ -21,7 +21,7 @@ pipeline {
         stage('Build App') {
             steps {
                 dir('app') {
-                    sh 'mvn clean package'
+                    bat 'mvn clean package'
                 }
             }
         }
