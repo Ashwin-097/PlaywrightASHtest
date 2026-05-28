@@ -1,6 +1,11 @@
 pipeline {
     agent any
-
+    
+    tools {
+        jdk 'JDK_17'
+        maven 'Maven_3.9.6'
+    }
+    
     stages {
         stage('Checkout App Code') {
             steps {
@@ -30,7 +35,7 @@ pipeline {
             steps {
                 dir('tests') {
                     // Run Maven tests, which will trigger your TestRunner.java
-                    sh 'mvn clean test'
+                    bat 'mvn clean test'
                 }
             }
         }
