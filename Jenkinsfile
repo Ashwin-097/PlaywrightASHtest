@@ -60,4 +60,8 @@ pipeline {
         }
         failure {
             echo '❌ Tests failed, deployment skipped.'
+            }
+    }
+}
+            
         
