@@ -1,13 +1,11 @@
 pipeline {
     agent {
-        // Run on a Windows node
         label 'windows'
     }
 
     stages {
         stage('Checkout Tests Repo') {
             steps {
-                // Clone your Playwright test repo
                 git branch: 'origin',
                     url: 'https://github.com/ashwinjxxx/PlaywrightASHtest'
             }
@@ -15,38 +13,40 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Install Node.js dependencies
                 bat 'npm install'
             }
         }
 
         stage('Run Playwright Tests') {
             steps {
-                // Run Playwright tests
                 bat 'npx playwright test'
             }
         }
 
         stage('Checkout App Repo') {
-            when {
-                // Only run if tests passed
-                succeeded()
-            }
             steps {
-                // Clone a sample app repo for deployment
-                git branch: 'main',
-                    url: 'https://github.com/octocat/Hello-World'
+                script {
+                    // Only run if tests passed
+                    if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
+                        git branch: 'main',
+                            url: 'https://github.com/octocat/Hello-World'
+                    } else {
+                        echo "Skipping app checkout because tests failed."
+                    }
+                }
             }
         }
 
         stage('Deploy App') {
-            when {
-                succeeded()
-            }
             steps {
-                // Example deployment step (replace with real deployment commands)
-                bat 'echo Deploying application...'
-                bat 'dir'  // Just listing files here as placeholder
+                script {
+                    if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
+                        bat 'echo Deploying application...'
+                        bat 'dir'
+                    } else {
+                        echo "Skipping deployment because tests failed."
+                    }
+                }
             }
         }
     }
@@ -60,6 +60,4 @@ pipeline {
         }
         failure {
             echo '❌ Tests failed, deployment skipped.'
-        }
-    }
-}
+        
