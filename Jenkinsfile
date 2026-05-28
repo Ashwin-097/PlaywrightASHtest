@@ -28,8 +28,7 @@ pipeline
                 powershell -command "Expand-Archive jdk.zip -DestinationPath jdk-21"
                  )
  
-                set JAVA_HOME=%WORKSPACE%\\tools\\jdk-21
-                set PATH=%JAVA_HOME%\\bin;%WORKSPACE%\\tools\\apache-maven-3.9.6\\bin;%PATH%
+            
 
                 rem === Set environment variables for this build ===
                 set JAVA_HOME=%WORKSPACE%\\tools\\jdk-21
