@@ -4,30 +4,15 @@ pipeline {
     stages {
         stage('Checkout Tests Repo') {
             steps {
-                git branch: 'origin',
+                git branch: 'main',
                     url: 'https://github.com/ashwinjxxx/PlaywrightASHtest'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build & Run Tests') {
             steps {
-                // Install Cucumber + Playwright globally
-                bat '''
-                    npm install -g @cucumber/cucumber
-                    npm install -g playwright
-                '''
-            }
-        }
-
-        stage('Run Cucumber + Playwright Tests') {
-            steps {
-                // Point to your actual feature + step definition paths
-                bat '''
-                    cucumber-js ^
-                      --require src/test/java/steps/**/*.js ^
-                      --require src/test/java/runner/**/*.js ^
-                      src/test/resources/features/**/*.feature
-                '''
+                // Run Maven build and Cucumber tests
+                bat 'mvn clean test'
             }
         }
 
