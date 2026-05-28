@@ -1,25 +1,22 @@
 package runner;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 
-import org.junit.runner.RunWith;
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-
-
-@RunWith(Cucumber.class)
 @CucumberOptions(
-	features = "src/test/resources/features",
+    features = "src/test/resources/features",
     glue = "steps",
-    		 plugin = {
-    			        "pretty",
-    			        "html:target/cucumber-report.html",
-    			        "junit:target/cucumber-report.xml",     // generates XML for Jenkins
-    			        "json:target/cucumber-report.json"
-    		 },
+    plugin = {
+        "pretty",
+        "html:target/cucumber-report.html",
+        "junit:target/cucumber-report.xml",
+        "json:target/cucumber-report.json"
+    },
     tags = "@test",
     monochrome = true
 )
-public class TestRunner {
+public class TestRunner extends AbstractTestNGCucumberTests {
 }
+
 
 
 // features = "src/test/resources/features",//
