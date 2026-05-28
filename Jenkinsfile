@@ -1,10 +1,6 @@
 pipeline {
     agent any
     
-    tools {
-        jdk 'JDK_17'
-        maven 'Maven_3.9.6'
-    }
     
     stages {
         stage('Checkout App Code') {
@@ -22,6 +18,26 @@ pipeline {
                 }
             }
         }
+
+
+        stage('Setup JDK & Maven') {
+            steps {
+                // Download and unpack Maven (example: 3.9.6)
+                bat '''
+                if not exist tools mkdir tools
+                cd tools
+
+                if not exist apache-maven-3.9.6 (
+                  curl -L -o maven.zip https://downloads.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip
+                  powershell -command "Expand-Archive maven.zip apache-maven-3.9.6"
+                )
+
+                setx MAVEN_HOME "%WORKSPACE%\\tools\\apache-maven-3.9.6"
+                setx PATH "%WORKSPACE%\\tools\\apache-maven-3.9.6\\bin;%PATH%"
+                '''
+            }
+        }
+
 
         stage('Build App') {
             steps {
