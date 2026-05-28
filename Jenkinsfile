@@ -1,88 +1,65 @@
-pipeline 
-{
-    agent any
-    
-    stages 
-    {
-		
-		          stage('Setup JDK 21 & Maven') {
-            steps {
-                bat '''
-                if not exist tools mkdir tools
-                cd tools
-
-                rem === Download Maven if not already present ===
-                if not exist apache-maven-3.9.16 (
-                  curl -L -o maven.zip https://downloads.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.zip
-                  powershell -command "Expand-Archive maven.zip ."
-                  rem Flatten folder name
-                  for /d %%i in (apache-maven-3.9.16*) do (
-                    if not "%%i"=="apache-maven-3.9.16" (
-                      move "%%i" apache-maven-3.9.16
-                    )
-                  )
-                )
-
-rem === Download JDK 21 if not already present ===
-if not exist jdk-21 (
-  curl -L -o jdk.zip https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11+10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.11_10.zip
-  powershell -command "Expand-Archive jdk.zip ."
-  rem Flatten folder name
-  for /d %%i in (jdk-21*) do (
-    if not "%%i"=="jdk-21" (
-      move "%%i" jdk-21
-    )
-  )
-)
-
- 
-            
-
-                rem === Set environment variables for this build ===
-                set JAVA_HOME=%WORKSPACE%\\tools\\jdk-21
-                set PATH=%JAVA_HOME%\\bin;%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin;%PATH%
-
-                echo ===== JAVA VERSION =====
-                "%JAVA_HOME%\\bin\\java.exe" -version
-
-                echo ===== MAVEN VERSION =====
-                "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -v
-                '''
-            }
-        }
-        
-stage('Build') {
-    steps {
-        // Checkout code
-        git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
-
+pipeline {
+    agent {
+        // Run on a Windows node
+        label 'windows'
     }
-}
-        
-        
-        stage("Deploy to QA"){
-            steps{
-                echo("deploy to qa")
-            }
-        }
-                
-        stage('Regression Automation Test') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
-               
-        // Run Maven inside a batch block
-        bat '''
 
-        rem === Run build ===
-        "%WORKSPACE%\\tools\\apache-maven-3.9.16\\bin\\mvn.cmd" -Dmaven.test.failure.ignore=true clean package
-        '''
-                    
-                }
+    stages {
+        stage('Checkout Tests Repo') {
+            steps {
+                // Clone your Playwright test repo
+                git branch: 'origin',
+                    url: 'https://github.com/ashwinjxxx/PlaywrightASHtest'
             }
         }
-        
-        
-        
+
+        stage('Install Dependencies') {
+            steps {
+                // Install Node.js dependencies
+                bat 'npm install'
+            }
+        }
+
+        stage('Run Playwright Tests') {
+            steps {
+                // Run Playwright tests
+                bat 'npx playwright test'
+            }
+        }
+
+        stage('Checkout App Repo') {
+            when {
+                // Only run if tests passed
+                succeeded()
+            }
+            steps {
+                // Clone a sample app repo for deployment
+                git branch: 'main',
+                    url: 'https://github.com/octocat/Hello-World'
+            }
+        }
+
+        stage('Deploy App') {
+            when {
+                succeeded()
+            }
+            steps {
+                // Example deployment step (replace with real deployment commands)
+                bat 'echo Deploying application...'
+                bat 'dir'  // Just listing files here as placeholder
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo '✅ Tests passed, app deployed.'
+        }
+        failure {
+            echo '❌ Tests failed, deployment skipped.'
+        }
     }
 }
