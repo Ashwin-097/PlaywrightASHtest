@@ -11,11 +11,9 @@ pipeline {
         }
 
         stage('Checkout Test Scripts') {
-            steps {
-                dir('tests') {
+            steps {              
                     git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
                 }
-            }
         }
 
         stage('Build App') {
