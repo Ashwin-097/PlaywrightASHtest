@@ -1,25 +1,39 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout Tests Repo') {
             steps {
-                git branch: 'origin',
+                git branch: 'main',
                     url: 'https://github.com/ashwinjxxx/PlaywrightASHtest'
             }
         }
 
-
-        stage('Run Playwright Tests') {
+        stage('Install Dependencies') {
             steps {
-                bat 'npx -p @playwright/test playwright test'
+                // Install Cucumber + Playwright globally
+                bat '''
+                    npm install -g @cucumber/cucumber
+                    npm install -g playwright
+                '''
+            }
+        }
+
+        stage('Run Cucumber + Playwright Tests') {
+            steps {
+                // Point to your actual feature + step definition paths
+                bat '''
+                    cucumber-js ^
+                      --require src/test/java/steps/**/*.js ^
+                      --require src/test/java/runner/**/*.js ^
+                      src/test/resources/features/**/*.feature
+                '''
             }
         }
 
         stage('Checkout App Repo') {
             steps {
                 script {
-                    // Only run if tests passed
                     if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
                         git branch: 'main',
                             url: 'https://github.com/octocat/Hello-World'
@@ -53,8 +67,6 @@ pipeline {
         }
         failure {
             echo '❌ Tests failed, deployment skipped.'
-            }
+        }
     }
 }
-            
-        
