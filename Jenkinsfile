@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout Tests Repo') {
             steps {
-                git branch: 'main',
+                git branch: 'origin',
                     url: 'https://github.com/ashwinjxxx/PlaywrightASHtest'
             }
         }
