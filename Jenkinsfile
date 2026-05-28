@@ -15,16 +15,16 @@ pipeline {
                 bat 'mvn clean test'
             }
         }
-        stage('Count Scenarios') {
+        stage('Show Counts') {
             steps {
-                // Parse Cucumber JSON report and echo counts
+                // Parse JUnit XML report and echo counts in console
                 bat '''
                 powershell -Command ^
-                  "$report = Get-Content target/cucumber-report.json | ConvertFrom-Json; ^
-                   $scenarios = ($report | ForEach-Object { $_.elements }).Count; ^
-                   $steps = ($report | ForEach-Object { $_.elements | ForEach-Object { $_.steps } }).Count; ^
-                   Write-Host ('Total scenarios executed: ' + $scenarios); ^
-                   Write-Host ('Total steps executed: ' + $steps)"
+                  "$xml = [xml](Get-Content target/cucumber-report.xml); ^
+                   $tests = $xml.testsuite.testcase.Count; ^
+                   $failures = $xml.testsuite.failure.Count; ^
+                   Write-Host ('Total scenarios executed: ' + $tests); ^
+                   Write-Host ('Total failures: ' + $failures)"
                 '''
             }
         }
