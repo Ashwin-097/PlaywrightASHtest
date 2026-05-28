@@ -1,9 +1,9 @@
 pipeline {
-    agent any
-
-tools {
-	maven 'maven 3.9.16'
-}
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:v1.17.2-focal'
+        }
+    }
     stages {
         stage('Checkout Tests Repo') {
             steps {
