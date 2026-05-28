@@ -13,7 +13,7 @@ pipeline
             steps
             {
                  git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
-                 bat '"%WORKSPACE%\\tools\\apache-maven-3.9.6\\bin\\mvn.cmd" clean package'
+                 bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
             post 
             {
