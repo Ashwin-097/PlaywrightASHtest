@@ -12,22 +12,25 @@ pipeline {
 
         stage('Checkout Test Scripts') {
             steps {              
+                dir('tests') {
                     git branch: 'origin', url: 'https://github.com/ashwinjxxx/PlaywrightASHtest.git'
                 }
+            }
         }
 
         stage('Build App') {
             steps {
                 dir('app') {
-                    sh 'echo "Building Hello World app..."'
+                    sh 'mvn clean package'
                 }
             }
         }
 
         stage('Run Tests') {
             steps {
-                 // Run Maven tests, which will trigger your TestRunner.java
-                sh 'mvn clean test'
+                dir('tests') {
+                    // Run Maven tests, which will trigger your TestRunner.java
+                    sh 'mvn clean test'
                 }
             }
         }
@@ -36,7 +39,19 @@ pipeline {
             steps {
                 dir('app') {
                     sh 'echo "Deploying Hello World app..."'
+                    // Replace with actual deploy command
                 }
             }
         }
     }
+
+    post {
+        always {
+            // Publish JUnit test results
+            junit 'tests/target/surefire-reports/*.xml'
+
+            // Archive Cucumber HTML report if generated
+            archiveArtifacts artifacts: 'tests/target/cucumber-report.html', onlyIfSuccessful: true
+        }
+    }
+}
