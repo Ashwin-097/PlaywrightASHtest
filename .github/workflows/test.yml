@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Playwright Java Tests
 
 on:
   workflow_dispatch:    # allows manual trigger
@@ -17,20 +17,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          node-version: '18'
+          java-version: '17'
+          distribution: 'temurin'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Build and run tests
+        run: mvn test
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-results
-          path: playwright-report
+          name: test-results
+          path: target/surefire-reports
