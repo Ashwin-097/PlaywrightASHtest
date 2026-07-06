@@ -26,6 +26,10 @@ jobs:
       - name: Run Playwright tests (with xvfb)
         run: xvfb-run mvn test
 
+      - name: Show test summary
+        run: |
+          grep "Tests run:" target/surefire-reports/*.txt >> $GITHUB_STEP_SUMMARY
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
