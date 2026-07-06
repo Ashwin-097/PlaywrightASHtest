@@ -1,1 +1,7 @@
-QA automation framework using Playwright, combining API validation with basic UI checks in a single repository. The API suite covers schema, payload, and status verification, while the UI suite validates visibility of key components (e.g., inventory list). Designed to demonstrate integration of API and UI testing together, with modular structure and CI/CD readiness.
+## Overview
+End-to-end QA automation framework using Playwright, combining API validation with basic UI checks.
+
+## Features
+- API Testing → schema, payload, status validation
+- UI Testing → inventory list visibility check
+- CI/CD Ready → pipeline integration structure
